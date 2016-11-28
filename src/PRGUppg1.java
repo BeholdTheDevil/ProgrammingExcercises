@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.util.Scanner;
+
 /**
  * Created by anton on 2016-11-28.
  */
@@ -35,6 +38,14 @@ public class PRGUppg1 {
 
     private static void del3() {
 
+        String palindrome = JOptionPane.showInputDialog(null, "Enter a word: ");
+        String reverse = new StringBuilder(palindrome).reverse().toString();
+
+        if(palindrome.equals(reverse)) {
+            JOptionPane.showMessageDialog(null, String.format("%s is a palindrome", palindrome));
+        } else {
+            JOptionPane.showMessageDialog(null, String.format("%s is not taa palindrome", palindrome));
+        }
     }
 
 
