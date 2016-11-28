@@ -39,12 +39,23 @@ public class PRGUppg1 {
     private static void del3() {
 
         String palindrome = JOptionPane.showInputDialog(null, "Enter a word: ");
-        String reverse = new StringBuilder(palindrome).reverse().toString();
+        char[] palindromeArr = palindrome.toCharArray();
+        char[] reverse = new char[palindromeArr.length];
 
-        if(palindrome.equals(reverse)) {
+        /*if(palindrome.equals(reverse)) {
             JOptionPane.showMessageDialog(null, String.format("%s is a palindrome", palindrome));
         } else {
             JOptionPane.showMessageDialog(null, String.format("%s is not taa palindrome", palindrome));
+        }*/
+
+        for(int i = 0; i < reverse.length; i++) {
+            reverse[reverse.length-1-i] = palindromeArr[i];
+        }
+        System.out.print(new String(reverse) + " " + palindrome);
+        if(palindrome.equals(new String(reverse))) {
+            JOptionPane.showMessageDialog(null, String.format("%s is a palindrome", palindrome));
+        } else {
+            JOptionPane.showMessageDialog(null, String.format("%s is not a palindrome", palindrome));
         }
     }
 
