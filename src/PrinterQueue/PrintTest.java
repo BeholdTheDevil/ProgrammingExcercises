@@ -7,19 +7,40 @@ import java.util.Scanner;
  */
 public class PrintTest {
 
-    public static void main(String[] args) {
-        String a = "";
-        Printer printer = new Printer();            //Initialize printer
-        Scanner scan = new Scanner(System.in);      //Scanner for user input
+    static Printer printer;
 
-        while(!a.equals("start")) {
-            System.out.print("Message to print: ");
-            a = scan.nextLine();
-            if(!a.equals("start")) printer.enqueue(a);
-        }
+    public static void main(String[] args) throws Printer.QueueException {
+        //Initialize printer
+        printer = new Printer();
 
-        printer.startPrinter(false);                     //Start printer, only prints first document in queue (printAll: false)
-        System.out.println("");
-        printer.startPrinter(true);                     //Start printer, prints the rest of the documents (printAll: true)
+        testTwo();
+    }
+
+    private static void testThree() {
+        printer.enqueue("a");
+        printer.enqueue("c");
+        printer.enqueue("b");
+        System.out.println(printer.size());
+        printer.queue.purge();
+        System.out.println(printer.size());
+    }
+
+    private static void testTwo() throws Printer.QueueException {
+        printer.enqueue("a");
+        printer.queue.enqueueFirst("b");
+        printer.enqueue("c");
+        printer.queue.enqueueFirst("d");
+
+        printer.startPrinter(true);
+    }
+
+    private static void testOne() throws Printer.QueueException {
+        printer.enqueue("Hello");
+        printer.enqueue("There");
+        printer.enqueue("Magnus");
+
+        System.out.println(printer.size());
+        System.out.println(printer.isEmpty());
+        printer.startPrinter(true);
     }
 }

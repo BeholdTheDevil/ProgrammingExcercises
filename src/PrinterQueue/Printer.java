@@ -5,88 +5,46 @@ package PrinterQueue;
  */
 public class Printer {
 
-    static Document first;
-    static Document last;
+    LinkedList<String> queue;
 
-    Printer() {}
-
-    public int size() {                                     //Retrieve linked list size
-        Document current = first;
-        int count = 0;
-        while(current != null) {
-            count++;
-            current = current.next;
-        }
-        return count;
+    Printer() {
+        queue = new LinkedList<>();
     }
 
-    public boolean isEmpty() {
-        if(first == null) return true;
-        else return false;
-    }
+    void enqueue(String message) {queue.enqueue(message);}
 
-    public void addFirst(Document d) {
-        d.next = first;                                     //Set a new Document as the first in the queue
-        first = d;
-    }
+    void dequeue() {queue.dequeue();}
 
-    public void dequeue() {
-        first = first.getNext();                            //Dequeue first Document
-    }
+    public boolean isEmpty() {return queue.isEmpty();}
 
-    public void removeLast() {
-        Document current = first;
-        if(current != null) {                               //Find the last Document in the queue
-            while(current.next != last) {
-                current = current.getNext();
-            }
-            current.setNext(null);                          //Set next of the second to last Document to null to remove link to last Document
-            last = current;                                 //Set the last to the second to last Document (in practice, remove the last Document)
-        }
-    }
+    public int size() {return queue.size();}
 
-    public void enqueue(String message) {
-        Document d = new Document(message);                 //Create new message
-        if(isEmpty()) {                                     //If queue is empty add the new Document as the first and also set it as the last one
-            first = d;
-            last = first;
-        } else {                                            //Add the new Document to the end of the queue
-            last.setNext(d);
-            last = d;
-        }
-
-    }
-
-    public void startPrinter(boolean printAll) {
-        first.print(printAll);
-    }
-
-    class Document {
-
-        Document next;
-        String message;
-
-        Document(String message_) {
-            message = message_;
-        }
-
-        void print(boolean printAll) {              //Boolean for printing all documents or a single document
-            System.out.println(message);
+    public void startPrinter(boolean printAll) throws QueueException, NullPointerException {
+        /*
+        Print either all items in the queue or only the first (printAll == true/false)
+        Waiting time to simulate the time it takes for the printer to print documents
+        Remove first Document from queue
+         */
+        try {
             try {
-                Thread.sleep(2000);             //Waiting time so to simulate the time it takes for the printer to print documents
-            } catch (InterruptedException ie) {
-
-            }
-            dequeue();                              //Remove first Document from queue
-            if (next != null && printAll) next.print(true);         //Print the next Document if such exists
+                do {
+                    Thread.sleep(2000);
+                    System.out.println(queue.getNextData());
+                    queue.dequeue();
+                } while(!queue.isEmpty() && printAll);
+            } catch (InterruptedException ie) {}
+        } catch(NullPointerException npe) {
+            throw new QueueException("Printqueue is empty", npe);
         }
+    }
 
-        Document getNext() {
-            return next;
-        }
-
-        void setNext(Document d) {
-            next = d;
-        }
+    class QueueException extends Exception {
+        /*
+        Custom exception for returning message when the queue is null
+         */
+        public QueueException() { super(); }
+        public QueueException(String message) { super(message); }
+        public QueueException(String message, Throwable cause) { super(message, cause); }
+        public QueueException(Throwable cause) { super(cause); }
     }
 }
