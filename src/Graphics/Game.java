@@ -30,11 +30,20 @@ public class Game extends JFrame {
         gt.getActionMap().put("RESET", action);
         gt.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, "RESET");
 
+        Action dispose = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.exit(0);
+            }
+        };
+        KeyStroke escKey = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+        gt.getActionMap().put("DISPOSE", dispose);
+        gt.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escKey, "DISPOSE");
+
         this.setPreferredSize(gt.getPreferredSize());
         this.setBackground(new Color(51,51,51));
         this.add(gt);
         this.pack();
-
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         gt.startG();
