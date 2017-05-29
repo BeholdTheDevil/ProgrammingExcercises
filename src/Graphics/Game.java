@@ -2,8 +2,10 @@ package Graphics;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeListener;
 
 
 /**
@@ -15,14 +17,19 @@ public class Game extends JFrame {
 
     public Game() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         gt = new GameTest();
-        addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent keyEvent) {
-                if(keyEvent.getKeyCode() == KeyEvent.VK_R) {
-                    gt.reset();
-                }
+
+        Action action = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                gt.reset();
             }
-        });
+        };
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+        gt.getActionMap().put("RESET", action);
+        gt.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, "RESET");
+
         this.setPreferredSize(gt.getPreferredSize());
         this.setBackground(new Color(51,51,51));
         this.add(gt);
