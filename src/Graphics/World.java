@@ -24,7 +24,7 @@ public class World {
         tiles = new Square[rowSize * rowSize];
         order = new int[]{-rowSize-1, -rowSize, -rowSize+1, -1, 1, rowSize-1, rowSize, rowSize+1};
 
-        mines = rowSize*rowSize/8;
+        mines = rowSize*rowSize/7;
 
         for(int i = 0; i < tiles.length; i++) {
             int x = i % rowSize;
@@ -65,17 +65,20 @@ public class World {
     }
 
     public void reveal(int pos) {
-        tiles[pos].state = true;
-        if(tiles[pos].content == 0) {
-            for(int i = 0; i < order.length; i++) {
-                int checking = pos + order[i];
-
-                if(checking >= 0 && checking < rowSize*rowSize) {
-                    if(tiles[checking].content == 0 && tiles[checking].state == false) {
-                        reveal(checking);
-                    }
-                    if(tiles[checking].content > -1) {
-                        tiles[checking].state = true;
+        if(tiles[pos].flag == false) {
+            tiles[pos].state = true;
+            if(tiles[pos].content == 0) {
+                for(int i = 0; i < order.length; i++) {
+                    int x = pos % rowSize;
+                    int checking = pos + order[i];
+                    int xdist = checking % rowSize - x;
+                    if((xdist >= -1 && xdist <= 1) && (checking >= 0 && checking < rowSize*rowSize) && tiles[checking].content != -1) {
+                        if(tiles[checking].content == 0 && tiles[checking].state == false && tiles[checking].flag == false ) {
+                            reveal(checking);
+                        }
+                        if(tiles[checking].content > -1 && tiles[checking].flag == false) {
+                            tiles[checking].state = true;
+                        }
                     }
                 }
             }

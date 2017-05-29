@@ -39,14 +39,18 @@ public class GameTest extends JPanel implements Runnable {
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent me) {
                 if(running) {
-                    if(me.getButton() == MouseEvent.BUTTON1) {
-                        float x = me.getX();
-                        float y = me.getY();
-                        if((x > xmargin+40 && x < GWIDTH-xmargin-40) && (y > ymargin+40 && y < GHEIGHT-ymargin-40)) {
-                            int pos = (int)((x-xmargin)/world.scale + world.rowSize*(int)((y-ymargin)/world.scale));
+                    float x = me.getX();
+                    float y = me.getY();
+                    if((x > xmargin+40 && x < GWIDTH-xmargin-40) && (y > ymargin+40 && y < GHEIGHT-ymargin-40)) {
+                        int pos = (int)((x-xmargin)/world.scale + world.rowSize*(int)((y-ymargin)/world.scale));
+                        if(me.getButton() == MouseEvent.BUTTON1) {
                             world.reveal(pos);
                             if(world.tiles[pos].content == -1) {
                                 running = false;
+                            }
+                        } else if(me.getButton() == MouseEvent.BUTTON3) {
+                            if(world.tiles[pos].state == false) {
+                                world.tiles[pos].flag = world.tiles[pos].flag == true ? false : true;
                             }
                         }
                     }
