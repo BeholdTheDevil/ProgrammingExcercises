@@ -25,6 +25,7 @@ public class Square {
     }
 
     public void draw(Graphics g) {
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
         g.setColor(color);
         g.fillRect((int)(pos.x), (int)(pos.y), size, size);
 
@@ -33,9 +34,8 @@ public class Square {
             g.drawLine((int)pos.x + size/3, (int)pos.y + size/3, (int)pos.x + 2*size/3, (int)pos.y + 2*size/3);
             g.drawLine((int)pos.x + 2*size/3, (int)pos.y + size/3, (int)pos.x + size/3, (int)pos.y + 2*size/3);
         }
-        if(content == -1) g.setColor(Color.red);
         if(state && !flag) {
-            g.drawString(Integer.toString(content), (int)pos.x + size/3, (int)pos.y + 2*size/3);
+            g.drawString(content > -1 ? Integer.toString(content) : "\uD83D\uDCA3", (int)pos.x + size/3, (int)pos.y + 2*size/3);
         }
     }
 }
