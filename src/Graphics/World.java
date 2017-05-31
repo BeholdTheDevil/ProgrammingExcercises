@@ -65,6 +65,9 @@ public class World {
     }
 
     public void reveal(int pos) {
+
+        //Add special case for specified number of markings around tile
+
         if(tiles[pos].flag == false) {
             tiles[pos].state = true;
             if(tiles[pos].content == 0) {

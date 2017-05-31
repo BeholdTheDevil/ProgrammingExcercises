@@ -41,8 +41,8 @@ public class GameTest extends JPanel implements Runnable {
                 if(running) {
                     float x = me.getX();
                     float y = me.getY();
-                    if((x > xmargin+40 && x < GWIDTH-xmargin-40) && (y > ymargin+40 && y < GHEIGHT-ymargin-40)) {
-                        int pos = (int)((x-xmargin)/world.scale + world.rowSize*(int)((y-ymargin)/world.scale));
+                    if((x > xmargin+5 && x < GWIDTH-xmargin-5) && (y > ymargin+5 && y < GHEIGHT-ymargin-5)) {
+                        int pos = ((int)((x-xmargin-5)/world.scale) + world.rowSize*(int)Math.floor(((y-ymargin-5)/world.scale)));
                         if(me.getButton() == MouseEvent.BUTTON1) {
                             world.reveal(pos);
                             if(world.tiles[pos].content == -1) {
